@@ -13,10 +13,10 @@ export function OPTIONS() {
     }
   });
 }
-
+const connect = connectDB();
 
 export async function POST(req: NextRequest) {
-    await connectDB(); 
+    await connect; 
   
     try {
       // Lấy title từ body của yêu cầu
