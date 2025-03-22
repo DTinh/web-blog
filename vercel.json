@@ -1,0 +1,13 @@
+{
+    "functions": {
+      "pages/*.tsx": {
+        "maxDuration": 45 
+      },
+      "api/test.js": {
+        "maxDuration": 30 
+      },
+      "api/hello.js": {
+        "maxDuration": 15 
+    }
+  }
+}
