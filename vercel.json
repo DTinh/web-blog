@@ -1,7 +1,8 @@
 {
     "functions": {
       "api/**/*.ts": {
-        "timeout": 30
+        "maxDuration": 60
       }
     }
   }
+  
