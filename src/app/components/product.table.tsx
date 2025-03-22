@@ -94,12 +94,16 @@ const TableProduct = (props: TProps) => {
                 })
               }}>Next</button>
           </div>
-          <ModalUpdate
-            isOpenModalUpdate={isOpenModalUpdate}
-            setIsOpenModalUpdate={setIsOpenModalUpdate}
-            dataUpdate={dataUpdate}
-            fetchListProduct={fetchListProduct}
-          />
+          {dataUpdate ? (
+            <ModalUpdate
+              isOpenModalUpdate={isOpenModalUpdate}
+              setIsOpenModalUpdate={setIsOpenModalUpdate}
+              dataUpdate={dataUpdate}
+              fetchListProduct={fetchListProduct}
+            />
+          ) : (
+            <p>Loading...</p>  
+          )}
         </div>
     );
 };
