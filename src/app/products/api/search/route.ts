@@ -1,8 +1,18 @@
 import Product from "@/app/config/models/Product";
 import connectDB from "@/app/config/mongoose";
 import { NextRequest, NextResponse } from "next/server";
-import { NextApiRequest, NextApiResponse } from 'next';
+const allowedOrigins = ["https://list-products-lilac.vercel.app", "http://localhost:3000"];
 
+export function OPTIONS() {
+  return NextResponse.json({}, {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Origin": allowedOrigins.join(","),
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+      "Access-Control-Allow-Headers": "Content-Type",
+    }
+  });
+}
 
 
 export async function POST(req: NextRequest) {
@@ -44,19 +54,3 @@ export async function POST(req: NextRequest) {
   }
 
 
-export async function handler(req: NextApiRequest, res: NextApiResponse) {
-  res.setHeader('Access-Control-Allow-Origin', '*'); // Cho phép tất cả origin (dev mode)
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-  if (req.method === 'OPTIONS') {
-    // Xử lý preflight request của CORS
-    return res.status(200).end();
-  }
-
-  if (req.method === 'GET') {
-    return res.status(200).json([{ id: 1, title: 'Product 1' }]);
-  }
-
-  return res.status(405).json({ message: 'Method Not Allowed' });
-}

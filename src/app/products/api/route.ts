@@ -1,17 +1,26 @@
 import Product from "@/app/config/models/Product";
-import Post from "@/app/config/models/Product";
 import connectDB from "@/app/config/mongoose";
 import { NextRequest, NextResponse } from "next/server";
-import { NextApiRequest, NextApiResponse } from 'next';
+const allowedOrigins = ["https://list-products-lilac.vercel.app", "http://localhost:3000"];
 
+export function OPTIONS() {
+  return NextResponse.json({}, {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Origin": allowedOrigins.join(","),
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+      "Access-Control-Allow-Headers": "Content-Type",
+    }
+  });
+}
 export async function POST(req: NextRequest){
     await connectDB();
 
     try {
         const {title, description, image} = await req.json()
-        const existed = await Post.findOne({title})
+        const existed = await Product.findOne({title})
         if(!existed){
-            const newProduct = await Post.create({title, description, image})
+            const newProduct = await Product.create({title, description, image})
             return NextResponse.json({
                 data: newProduct,
                 message: "Success"
@@ -38,9 +47,9 @@ export async function GET(req: NextRequest){
     try {
         const limit = req.nextUrl.searchParams.get('limit') ?? 2;
         const page = req.nextUrl.searchParams.get('page') ?? 2;
-        const totalPosts = await Post.countDocuments(); 
+        const totalPosts = await Product.countDocuments(); 
         const totalPage = Math.ceil(totalPosts / +limit)
-        const allPost = await Post.find().sort({ createdAt: -1 }).skip((+page - 1) * +limit).limit(+limit);
+        const allPost = await Product.find().sort({ createdAt: -1 }).skip((+page - 1) * +limit).limit(+limit);
         return NextResponse.json({
             data: allPost,
             meta: {
@@ -128,19 +137,3 @@ export async function DELETE(req: NextRequest){
 }
 
 
-export async function handler(req: NextApiRequest, res: NextApiResponse) {
-  res.setHeader('Access-Control-Allow-Origin', '*'); 
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-  if (req.method === 'OPTIONS') {
-    // Xử lý preflight request của CORS
-    return res.status(200).end();
-  }
-
-  if (req.method === 'GET') {
-    return res.status(200).json([{ id: 1, title: 'Product 1' }]);
-  }
-
-  return res.status(405).json({ message: 'Method Not Allowed' });
-}
