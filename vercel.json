@@ -6,7 +6,7 @@
     "pages/products/index.tsx": {
       "maxDuration": 45
     },
-    "products/api/**/*.js": {
+    "api/products/**/*.ts": {
       "maxDuration": 30
     }
   }
