@@ -52,10 +52,10 @@ const ModalUpdate = (props: TProps) => {
         
       };
       const handleOnChangImage = async (event: ChangeEvent<HTMLInputElement>) => {
-        let data = event.target.files;
+        const  data = event.target.files;
         const file = data ? data[0] : null;
         if (file) {
-            let base64 = await CommonUtils.getBase64(file);
+          const  base64 = await CommonUtils.getBase64(file);
             form.setFieldsValue({ image: base64 });
             setPreviewImage(base64);
         }
