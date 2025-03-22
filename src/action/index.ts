@@ -2,7 +2,12 @@
 
 import { revalidateTag } from 'next/cache'
  
-export const handleCreateProductAction =async (data: any) => {
+interface ProductData {
+    title: string;
+    description: string;
+    image: string; 
+  }
+export const handleCreateProductAction =async (data: ProductData) => {
     const res = await fetch('http://localhost:3000/products/api/',{
         method: "POST",
         body: JSON.stringify(data),
@@ -13,7 +18,7 @@ export const handleCreateProductAction =async (data: any) => {
     revalidateTag('create-post')
     return await res.json()
 }
-export const handleUpdateProductAction =async ( updatedData: any) => {
+export const handleUpdateProductAction =async ( updatedData: ProductData) => {
     const res = await fetch(`http://localhost:3000/products/api/`,{
         method: "PUT",
         body: JSON.stringify(updatedData),
@@ -24,7 +29,7 @@ export const handleUpdateProductAction =async ( updatedData: any) => {
     revalidateTag('update-post')
     return await res.json()
 }
-export const handleDeleteProductAction =async ( id: any) => {
+export const handleDeleteProductAction =async (  id: string ) => {
     const res = await fetch(`http://localhost:3000/products/api/`,{
         method: "DELETE",
         body: JSON.stringify(id),
@@ -35,7 +40,7 @@ export const handleDeleteProductAction =async ( id: any) => {
     revalidateTag('delete-post')
     return await res.json()
 }
-export const handleSearchProduct  =async ( searchTerm: any) => {
+export const handleSearchProduct  =async ( searchTerm: string) => {
     const res = await fetch(`http://localhost:3000/products/api/search`,{
         method: "POST",
         body: JSON.stringify({ title: searchTerm }),

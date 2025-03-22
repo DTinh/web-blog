@@ -12,19 +12,18 @@ interface TProps {
     setParams: React.Dispatch<React.SetStateAction<{ page: number; limit: number }>>;
   }
 
+
 const TableProduct = (props: TProps) => {
     const [isOpenModalUpdate, setIsOpenModalUpdate] = useState(false);
     const {listProduct, params, setParams, fetchListProduct } = props;
-    const [dataUpdate, setDataUpdate] = useState("");
+    const [dataUpdate, setDataUpdate] = useState<TProduct | null>(null);
 
-    const handleUpdate = (data: any) => {
+    const handleUpdate = (data: TProduct) => {
       setIsOpenModalUpdate(true);
       setDataUpdate(data);
     }
-    const handleDelete = async (data: any) => {
-      
-        const res = await handleDeleteProductAction({ id: data._id });
-        
+    const handleDelete = async (data: TProduct) => {
+        const res = await handleDeleteProductAction({ id: String(data._id) });
         if(res?.message === "Success"){
           message.success("Delete success")
           fetchListProduct();

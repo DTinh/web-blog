@@ -55,16 +55,17 @@ const ModalUpdate = (props: TProps) => {
             setPreviewImage(base64);
         }
       }
-      const initialValues = {
+      const initialValues = dataUpdate ? {
         id: dataUpdate._id,
         title: dataUpdate.title,
         description: dataUpdate.description,
-        image: dataUpdate.image
-      };
+        image: dataUpdate.image,
+      } : { id: '', title: '', description: '', image: '' };
       
       useEffect(() => {
         if (dataUpdate) {
           form.setFieldsValue({
+            id: dataUpdate._id,
             title: dataUpdate.title,
             description: dataUpdate.description,
             image: dataUpdate.image
