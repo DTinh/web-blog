@@ -23,7 +23,7 @@ const TableProduct = (props: TProps) => {
       setDataUpdate(data);
     }
     const handleDelete = async (data: TProduct) => {
-        const res = await handleDeleteProductAction({ id: String(data._id) });
+        const res = await handleDeleteProductAction(String(data._id));
         if(res?.message === "Success"){
           message.success("Delete success")
           fetchListProduct();
@@ -61,8 +61,8 @@ const TableProduct = (props: TProps) => {
                     ></i></button>
                     <Popconfirm
                   placement='leftTop'
-                  title={'Xac nhan xoa product'}
-                  description={'Ban co chap nhan xoa product'}
+                  title={'Confirm product deletiont'}
+                  description={'Do you accept product deletion?'}
                   onConfirm={() => handleDelete(product)}
                   okText="Xac nhan"
                   cancelText='Huy'

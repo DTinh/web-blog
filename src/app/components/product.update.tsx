@@ -1,7 +1,6 @@
-import { Button, Form, Input, message, Modal, Upload }from"antd";
-import TextArea from "antd/es/input/TextArea";
+import { Form, Input, message, Modal }from"antd";
 import CommonUtils from '../../utils/CommonUtils';
-import { handleCreateProductAction, handleUpdateProductAction } from "@/action";
+import { handleUpdateProductAction } from "@/action";
 import { useEffect, useState } from "react";
 import Image from 'next/image';
 interface TProps{
@@ -16,7 +15,13 @@ interface TProps{
     },
     fetchListProduct: () => void;
 }
-
+import { ChangeEvent } from 'react';
+interface Product {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+}
 const ModalUpdate = (props: TProps) => {
     const {isOpenModalUpdate, setIsOpenModalUpdate, dataUpdate, fetchListProduct} = props;
     const [form] = Form.useForm();
@@ -30,7 +35,7 @@ const ModalUpdate = (props: TProps) => {
         setIsOpenModalUpdate(false)
       };
       
-      const onFinish = async(values: any) => {        
+      const onFinish = async(values: Product) => {        
         const updatedData = {
           id: values.id,  
           title: values.title,  
@@ -46,9 +51,9 @@ const ModalUpdate = (props: TProps) => {
         }
         
       };
-      const handleOnChangImage = async (event: any) => {
+      const handleOnChangImage = async (event: ChangeEvent<HTMLInputElement>) => {
         let data = event.target.files;
-        let file = data[0];
+        const file = data ? data[0] : null;
         if (file) {
             let base64 = await CommonUtils.getBase64(file);
             form.setFieldsValue({ image: base64 });

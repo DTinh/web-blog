@@ -32,7 +32,7 @@ export const handleUpdateProductAction =async ( updatedData: ProductData) => {
 export const handleDeleteProductAction =async (  id: string ) => {
     const res = await fetch(`http://localhost:3000/products/api/`,{
         method: "DELETE",
-        body: JSON.stringify(id),
+        body: JSON.stringify({id}),
         headers: {
            "Content-Type": "application/json",
           },
