@@ -64,8 +64,8 @@ const TableProduct = (props: TProps) => {
                   title={'Confirm product deletiont'}
                   description={'Do you accept product deletion?'}
                   onConfirm={() => handleDelete(product)}
-                  okText="Xac nhan"
-                  cancelText='Huy'
+                  okText="Confirm"
+                  cancelText='Cancel'
                 >
                     <button><i style={{fontSize: '25px'}}  className="fa fa-trash text-red-500"></i></button>
                     </Popconfirm>
@@ -102,7 +102,7 @@ const TableProduct = (props: TProps) => {
               fetchListProduct={fetchListProduct}
             />
           ) : (
-            <p>Loading...</p>  
+            ""
           )}
         </div>
     );
