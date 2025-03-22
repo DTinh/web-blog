@@ -22,8 +22,6 @@ const ModalCreate = (props: TProps) => {
       };
       
       const onFinish = async(values: any) => {
-        console.log('check values' , values);
-
         const res = await handleCreateProductAction(values)
 
         if(res?.message === "Success"){

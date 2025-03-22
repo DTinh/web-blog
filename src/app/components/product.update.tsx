@@ -3,6 +3,7 @@ import TextArea from "antd/es/input/TextArea";
 import CommonUtils from '../../utils/CommonUtils';
 import { handleCreateProductAction, handleUpdateProductAction } from "@/action";
 import { useEffect, useState } from "react";
+import Image from 'next/image';
 interface TProps{
   isOpenModalUpdate: boolean;
     setIsOpenModalUpdate: (v: boolean) => void;
@@ -114,11 +115,17 @@ const ModalUpdate = (props: TProps) => {
             </Form.Item>
             {previewImage && (
             <div className="mt-4 flex justify-center">
-              <img 
+              {/* <img 
                 src={previewImage} 
                 alt="Preview" 
-                style={{ width: "50px", maxHeight: "50px", objectFit: "cover" }} 
-              />
+                style={{ width: "px", maxHeight: "50px", objectFit: "cover" }} 
+              /> */}
+              <Image
+             src={previewImage} 
+              alt="Image description"
+              width={50}
+              height={50}
+            />
             </div>
           )}
          </Form>

@@ -1,7 +1,7 @@
 'use client';
 import { useState } from "react";
 import { TProduct } from "../products/page";
-
+import Image from 'next/image';
 import ModalUpdate from "./product.update";
 import { message, Popconfirm } from "antd";
 import { handleDeleteProductAction } from "@/action";
@@ -47,7 +47,13 @@ const TableProduct = (props: TProps) => {
                 <td className="border px-4 py-2">{product.title}</td>
                 <td className="border px-4 py-2">{product.description}</td>
                 <td className="border px-4 py-2 flex justify-center">
-                    <img className="w-10 h-10" src={product.image} alt="" />
+                    {/* <img className="w-10 h-10" src={product.image} alt="" /> */}
+                    <Image
+                    src={product.image}
+                    alt="Image description"
+                    width={50}
+                    height={50}
+                  />
                 </td>
                 <td className="border px-4 py-2">
                     <button 
