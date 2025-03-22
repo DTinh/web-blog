@@ -1,13 +1,13 @@
 {
     "functions": {
-      "pages/*.tsx": {
-        "maxDuration": 45 
+      "pages/index.tsx": {
+        "maxDuration": 45
       },
-      "api/test.js": {
-        "maxDuration": 30 
+      "pages/products/index.tsx": {
+        "maxDuration": 45
       },
-      "api/hello.js": {
-        "maxDuration": 15 
+      "api/products/**/*.js": {
+        "maxDuration": 30
+      }
     }
   }
-}
