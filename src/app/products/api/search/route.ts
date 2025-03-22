@@ -3,16 +3,33 @@ import connectDB from "@/app/config/mongoose";
 import { NextRequest, NextResponse } from "next/server";
 const allowedOrigins = ["https://list-products-lilac.vercel.app", "http://localhost:3000"];
 
-export function OPTIONS() {
+export async function OPTIONS(req: NextRequest) {
+  const origin = req.headers.get("Origin");
+
+ 
+  if (allowedOrigins.includes(origin || "")) {
+    return NextResponse.json({}, {
+      status: 200,
+      headers: {
+        "Access-Control-Allow-Origin": origin || "",  
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+        "Access-Control-Allow-Headers": "Content-Type",
+      }
+    });
+  }
+
+  // Trả về lỗi nếu origin không được phép
   return NextResponse.json({}, {
-    status: 200,
+    status: 403,
     headers: {
-      "Access-Control-Allow-Origin": allowedOrigins.join(","),
+      "Access-Control-Allow-Origin": "", 
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
       "Access-Control-Allow-Headers": "Content-Type",
     }
   });
 }
+
+
 const connect = connectDB();
 
 export async function POST(req: NextRequest) {
