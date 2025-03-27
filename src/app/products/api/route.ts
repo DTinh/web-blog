@@ -16,10 +16,16 @@ export function OPTIONS() {
   });
 }
 
-const connect = connectDB();
+// Thực hiện kết nối cơ sở dữ liệu 1 lần duy nhất (tối ưu hóa)
+let isConnected = false;
+const connect = async () => {
+  if (isConnected) return;
+  await connectDB();
+  isConnected = true;
+};
 
 export async function POST(req: NextRequest) {
-  await connect; // Chỉ kết nối 1 lần
+  await connect(); // Chỉ kết nối 1 lần
 
   try {
     const { title, description, image } = await req.json();
@@ -38,7 +44,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  await connect;
+  await connect();
 
   try {
     const limit = req.nextUrl.searchParams.get('limit') ?? 2;
@@ -62,7 +68,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
-  await connect; 
+  await connect(); 
 
   try {
     const { id, title, description, image } = await req.json();
@@ -85,7 +91,7 @@ export async function PUT(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  await connect; 
+  await connect(); 
 
   try {
     const { id } = await req.json();
