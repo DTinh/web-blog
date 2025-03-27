@@ -26,7 +26,7 @@ export default function ListProduct() {
     setSearchTerm(e.target.value);
   };
   const fetchListProduct = async () => {
-    fetch(`http://localhost:3000/products/api/?limit=${params.limit}&page=${params.page}`).then((res) => res.json().then((data) => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/api/?limit=${params.limit}&page=${params.page}`).then((res) => res.json().then((data) => {
       setListProduct({
         data: data.data,
         totalPage: data.meta.totalPage
