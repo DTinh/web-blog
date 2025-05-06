@@ -39,16 +39,28 @@ export default function ListProduct() {
   
   const handleSearch = async () => {
     if (!searchTerm.trim()) {
-      message.error("Title is required");
+      fetchListProduct(); // Hiển thị lại danh sách ban đầu nếu ô tìm kiếm trống
       return;
     }
-    const res = await handleSearchProduct(searchTerm)
-    if(res?.message === "Success"){
-      setListProduct(res);
-    }else{
-      message.error(res.message)
+    const res = await handleSearchProduct(searchTerm);
+    if (res?.message === "Success") {
+      setListProduct({
+        data: res.data.slice(0, params.limit), // Lấy số lượng sản phẩm theo giới hạn `limit`
+        totalPage: Math.ceil(res.data.length / params.limit), // Tính tổng số trang
+      });
+    } else {
+      message.error(res.message);
     }
   }
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      handleSearch();
+    }, 500); 
+
+    return () => clearTimeout(delayDebounceFn); // Xóa timeout nếu searchTerm thay đổi trước khi timeout hoàn thành
+  }, [searchTerm]);
+
       return(
         <div className='container mx-auto w-[1200px]'>
           <div className='content-container bg-white mt-12'>
@@ -62,9 +74,9 @@ export default function ListProduct() {
                   value={searchTerm} 
                   onChange={handleChange} 
                 />
-                <i className="fa fa-search absolute right-2 top-1/2 transform -translate-y-1/2 text-black  cursor-pointer" style={{fontSize: "25px"}} 
+                {/* <i className="fa fa-search absolute right-2 top-1/2 transform -translate-y-1/2 text-black  cursor-pointer" style={{fontSize: "25px"}} 
                 onClick={() => handleSearch()}
-                ></i>
+                ></i> */}
                 </div>
                 <button className='px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600'
                 onClick={() => setIsOpenModalCreate(true)}
@@ -75,7 +87,7 @@ export default function ListProduct() {
            listProduct={listProduct}
            params={params}
            setParams={setParams}
-           fetchListProduct={fetchListProduct}
+           fetchListProduct={searchTerm.trim() ? handleSearch : fetchListProduct} // Gọi đúng hàm khi phân trang
            />
            <ModalCreate
            isOpenModalCreate={isOpenModalCreate}
@@ -85,4 +97,3 @@ export default function ListProduct() {
         </div>
       )
   }
-  
